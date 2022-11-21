@@ -12,15 +12,7 @@ public class CustomerService {
     private final CustomerRepository customerRepository;
 
     UUID save(CustomerDTO dto) {
-        var customer = Customer.builder()
-                .firstName(dto.getFirstName())
-                .lastName(dto.getLastName())
-                .street(dto.getStreet())
-                .city(dto.getCity())
-                .postalCode(dto.getPostalCode())
-                .buildingNo(dto.getBuildingNo())
-                .apartmentNo(dto.getApartmentNo())
-                .build();
+        var customer = new Customer(dto.getFirstName(), dto.getLastName());
 
         customer.addAddress(
                 Address.builder()

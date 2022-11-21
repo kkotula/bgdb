@@ -12,19 +12,18 @@ import java.util.UUID;
 @Getter
 @Setter
 @NoArgsConstructor
-@AllArgsConstructor
-@Builder
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
     private String firstName;
     private String lastName;
-    private String street;
-    private String city;
-    private String postalCode;
-    private String buildingNo;
-    private String apartmentNo;
+
+    public Customer(String firstName, String lastName) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+    }
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
     private List<Address> addresses;
 
