@@ -21,6 +21,18 @@ public class CustomerService {
                 .buildingNo(dto.getBuildingNo())
                 .apartmentNo(dto.getApartmentNo())
                 .build();
+
+        customer.addAddress(
+                Address.builder()
+                        .customer(customer)
+                        .street(dto.getStreet())
+                        .city(dto.getCity())
+                        .postalCode(dto.getPostalCode())
+                        .buildingNo(dto.getBuildingNo())
+                        .apartmentNo(dto.getApartmentNo())
+                        .build()
+        );
+
         customerRepository.save(customer);
 
         return customer.getId();
@@ -30,15 +42,17 @@ public class CustomerService {
         var customer = customerRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Failed to find a customer with id: " + id));
 
+        var address = customer.getAddresses().get(0);
+
         return CustomerDTO.builder()
                 .id(customer.getId())
                 .firstName(customer.getFirstName())
                 .lastName(customer.getLastName())
-                .street(customer.getStreet())
-                .city(customer.getCity())
-                .postalCode(customer.getPostalCode())
-                .buildingNo(customer.getBuildingNo())
-                .apartmentNo(customer.getApartmentNo())
+                .street(address.getStreet())
+                .city(address.getCity())
+                .postalCode(address.getPostalCode())
+                .buildingNo(address.getBuildingNo())
+                .apartmentNo(address.getApartmentNo())
                 .build();
     }
 }

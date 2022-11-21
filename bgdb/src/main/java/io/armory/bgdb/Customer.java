@@ -3,6 +3,8 @@ package io.armory.bgdb;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -23,4 +25,13 @@ public class Customer {
     private String postalCode;
     private String buildingNo;
     private String apartmentNo;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "customer")
+    private List<Address> addresses;
+
+    public void addAddress(Address address) {
+        if (this.addresses == null) {
+            this.addresses = new ArrayList<>(1);
+        }
+        this.addresses.add(address);
+    }
 }
