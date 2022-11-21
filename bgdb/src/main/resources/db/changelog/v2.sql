@@ -1,6 +1,6 @@
 CREATE TABLE bgdb.address
 (
-    id           UUID PRIMARY KEY NOT NULL,
+    id           UUID DEFAULT gen_random_uuid (),
     customer_id  UUID NOT NULL,
     street       VARCHAR(50) NOT NULL,
     city         VARCHAR(50) NOT NULL,
@@ -11,3 +11,7 @@ CREATE TABLE bgdb.address
         FOREIGN KEY (customer_id)
             REFERENCES bgdb.customers (id)
 );
+
+-- Migration part
+INSERT INTO bgdb.address (customer_id, street, city, postal_code, building_no, apartment_no)
+SELECT id, street, city, postal_code, building_no, apartment_no FROM bgdb.customers;
